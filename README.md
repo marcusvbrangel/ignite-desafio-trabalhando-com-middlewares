@@ -24,15 +24,20 @@
 
 </br>
 
-## Tests :cyclone:
+## Middleware Tests :cyclone:
 
-- [ x ] Should be able to list all user's todos.
-- [ x ] Should be able to create a new todo.
-- [ x ] Should be able to update a todo.
-- [ x ] Should not be able to update a non existing todo.
-- [ x ] Should be able to mark a todo as done.
-- [ x ] Should be able to delete a todo.
-- [ x ] Should not be able to delete a non existing todo.
+- [ x ] Should be able to find user by username in header and pass it to request.user.
+- [ x ] Should not be able to find a non existing user by username in header.
+- [ x ] Should be able to let user create a new todo when is in free plan and have less than ten todos.
+- [ x ] Should not be able to let user create a new todo when is not Pro and already have ten todos.
+- [ x ] Should be able to let user create infinite new todos when is in Pro plan.
+- [ x ] Should be able to put user and todo in request when both exits.
+- [ x ] Should not be able to put user and todo in request when user does not exists.
+- [ x ] Should not be able to put user and todo in request when todo id is not uuid.
+- [ x ] Should not be able to put user and todo in request when todo does not exists.
+- [ x ] Should be able to find user by id route param and pass it to request.user.
+- [ x ] Should not be able to pass user to request.user when it does not exists.
+
 
 
 </br>
@@ -40,6 +45,8 @@
 ## Application routes :cyclone:
 
 * <b>POST</b> /users
+* <b>GET</b> /users/:id
+* <b>PATCH</b> /users/:id/pro
 * <b>GET</b> /todos
 * <b>POST</b> /todos
 * <b>PUT</b> /todos/:id
@@ -98,7 +105,7 @@ npm run dev
 
 ## Contributing :cyclone:
 
-Have a look through existing [Issues](https://github.com/marcusvbrangel/ignite-defafio-conceitos-do-node/issues) and [Pull Requests](https://github.com/marcusvbrangel/ignite-defafio-conceitos-do-node/pulls) that you could help with.
+Have a look through existing [Issues](https://github.com/marcusvbrangel/ignite-desafio-trabalhando-com-middlewares/issues) and [Pull Requests](https://github.com/marcusvbrangel/ignite-desafio-trabalhando-com-middlewares/pulls) that you could help with.
 
 <br />
 
