@@ -9,20 +9,109 @@ app.use(cors());
 
 const users = [];
 
-function checksExistsUserAccount(request, response, next) {
-  // Complete aqui
+const checksExistsUserAccount = (request, response, next) => {
+  
+  const { username } = request.headers;
+  
+  const user = users.find((user) => user.username === username);
+  
+  if (!user) {
+    return response.status(404).json({ error: "User not found!" });
+  }
+
+  request.user = user;
+
+  next();
+
 }
 
-function checksCreateTodosUserAvailability(request, response, next) {
-  // Complete aqui
+const checksCreateTodosUserAvailability = (request, response, next) => {
+  
+  const { user } = request;
+
+  if (!user.pro) {
+
+    const totalTodos = user.todos.length;
+
+    if (totalTodos >= 10) {
+      return response.status(403).json({ error: "The free plan already has ten tasks registered!"})
+    }
+
+  }
+
+  request.user = user;
+
+  next();
+
 }
 
-function checksTodoExists(request, response, next) {
-  // Complete aqui
+const checksTodoExists = (request, response, next) => {
+  
+  const { username } = request.headers;
+
+  const { id } = request.params;
+
+  
+  const user = users.find((user) => user.username === username);
+
+  
+  if (user) {
+
+    // user exists...
+
+    if (validate(id)) {
+
+      // uuid valid...
+
+      const todo = user.todos.find((todo) => todo.id === id);
+      
+      if (todo) {
+
+        // todo exists...
+        // Should be able to put user and todo in request when both exits...
+
+        request.user = user;
+        request.todo = todo;
+
+        next();
+
+      } else {
+
+        // Should not be able to put user and todo in request when todo does not exists
+        return response.status(404).json({ error: "Todo not found!" });
+
+      }
+
+    } else {
+
+      // Should not be able to put user and todo in request when todo id is not uuid...
+      return response.status(400).json({ error: "Invalid UUID!" });
+
+    }
+
+  } else {
+
+    // Should not be able to put user and todo in request when user does not exists...
+    return response.status(404).json({ error: "User not found!" });
+
+  }
+
 }
 
-function findUserById(request, response, next) {
-  // Complete aqui
+const findUserById = (request, response, next) => {
+  
+  const { id } = request.params;
+
+  const user = users.find((user) => user.id === id);
+
+  if (!user) {
+    return response.status(404).json({ error: "User not found!" });
+  }
+
+  request.user = user;
+
+  next();
+
 }
 
 app.post('/users', (request, response) => {
